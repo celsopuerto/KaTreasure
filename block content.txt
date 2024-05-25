@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+Home | Ka Treasure Water Terraces Mountain Resort
+{% endblock %}
+
+{% block head %} 
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+    
+
+<script type="text/javascript" src="{% static 'js/login.js' %}"></script>
+{% endblock %}  

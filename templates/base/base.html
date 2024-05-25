@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ka Treasure Water Terraces Mountain Resort{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    {% block head %}
+
+    {% endblock %}
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">Ka Treasure</a>
+            </div>
+            <ul class="links">
+                <li><a href="{% url 'KaTreasureApp:home' %}">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="{% url 'KaTreasureApp:contactus' %}">Contact</a></li>
+            </ul>
+            <ul class="auth">
+                {% if authenticated == True %}
+                    <li><a href="#" class="name">{{full_name}}</a></li>
+                    <li><a href="{% url 'KaTreasureApp:logout' %}" id="logout" class="action_btn">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'KaTreasureApp:login' %}" id="login" class="action_btn">Login</a></li>
+                    <li><a href="{% url 'KaTreasureApp:signup' %}" id="signup" class="action_btn">Signup</a></li>
+                {% endif %}
+            </ul>
+            <div class="toggle_btn">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+        <div class="dropdown_menu">
+            <li><a href="#">{{full_name}}</a></li>
+            <li><a href="{% url 'KaTreasureApp:home' %}">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="{% url 'KaTreasureApp:contactus' %}">Contact</a></li>
+            {% if authenticated == True %}
+            <li><a href="{% url 'KaTreasureApp:logout' %}" class="action_btn">Logout</a></li>
+            <style>
+                .dropdown_menu.open {
+                    height: 287px;
+                }
+            </style>
+            {% else %}
+            <style>
+                .dropdown_menu.open {
+                    height: 350px;
+                }
+            </style>
+            <li><a href="{% url 'KaTreasureApp:login' %}" class="action_btn">Login</a></li>
+            <li><a href="{% url 'KaTreasureApp:signup' %}" class="action_btn">Signup</a></li>
+            {% endif %}
+        </div>
+    </header>
+    <div id="messagemain" class="messagemain">
+
+        {% include 'common/messages.html' %}
+        
+    </div>
+
+    <main>
+        <section id="hero">
+            {% block content %}
+
+
+
+            {% endblock %}
+        </section>
+    </main>
+    <script type="text/javascript" src="{% static 'script.js' %}"></script>
+    <script>
+        function redirectToLogout() {
+            window.location.href = "{% url 'KaTreasureApp:logout' %}";
+        }
+    </script>
+
+</body>
+</html>

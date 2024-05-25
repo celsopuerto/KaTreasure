@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+Signup | Ka Treasure Water Terraces Mountain Resort
+{% endblock %}
+
+{% block head %} 
+<link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="login-box">
+        <div class="login-header">
+            <header>Sign Up</header>
+        </div>
+        <div class="input-box">
+            <input type="text" class="input-field" name="full_name" id="full_name" placeholder="Full Name" required>
+        </div>
+        <div class="input-box">
+            <input type="email" class="input-field" name="email" id="email" placeholder="Email" required>
+        </div>
+        <div class="input-box">
+            <input type="password" class="input-field" name="password" id="password" placeholder="Password" autocomplete="off" required>
+        </div>
+        <div class="forgo">
+            <section>
+                <input type="checkbox" name="" id="check">
+                <label for="check">Remember me</label>
+            </section>
+            <section>
+                <a href="{% url 'KaTreasureApp:forgot_password' %}" id="signa">Forgot password</a>
+            </section>
+        </div>
+        <div class="input-submit">
+            <button class="submit-btn" id="submit"></button>
+            <label for="submit">Sign Up</label>
+            <div class="sign-up-link">
+                <p>Already have an account? <a href="{% url 'KaTreasureApp:login' %}">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
+
+{% endblock %}  

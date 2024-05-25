@@ -1,0 +1,19 @@
+{% if messages %}
+    {% for message in messages %}
+    <center>
+      <div class="toast active">
+    
+          <div class="toast-content">
+            <i class="fa fa-bell check"></i>
+        
+            <div class="message">
+              <span class="text text-1">Notification</span>
+              <span class="text text-2">{{message}}</span>
+            </div>
+          </div>
+        
+          <div class="progress active"></div>
+      </div>
+    </center>
+    {% endfor %}
+{% endif %}
