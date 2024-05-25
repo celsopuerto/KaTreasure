@@ -8,11 +8,13 @@ import firebase_admin
 from django.core.mail import send_mail
 from firebase_admin import credentials
 from firebase_admin import auth
+from google.cloud import storage
 
 #pyrebase
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 authn = firebase.auth()
+storage_client = storage.Client()
 
 #admin firebase
 cred = credentials.Certificate('firebase-sdk.json')
