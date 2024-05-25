@@ -20,4 +20,4 @@ firebase_admin.initialize_app(cred)
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Mic Check BROO.")
+    return HttpResponse("Firebase.")
