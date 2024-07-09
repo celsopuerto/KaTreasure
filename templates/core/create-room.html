@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Form</title>
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="{% static 'css/create-room.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>KaTreasure Room Create</h1>
+        <p>Here you can create a new room</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="column">
+                    <label for="id">Room ID</label>
+                    <input type="text" name="id" id="id" placeholder="Room ID">
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="max-adults">Adults Max Capacity</label>
+                    <input type="text" name="max-adults" id="max-adults" placeholder="Maximum Adults">
+                </div>
+                <div class="column">
+                    <label for="max-children">Children Max Capacity</label>
+                    <input type="text" name="max-children" id="max-children" placeholder="Maximum Children">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="type">Room Type (Aircon or Non-Aircon)</label>
+                    <input type="text" name="type" id="type" placeholder="Room Type">
+                </div>
+                <div class="column">
+                    <label for="contact">Price</label>
+                    <input type="tel" id="price" name="price" placeholder="Price">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="issue">Description</label>
+                    <textarea id="description" name="description" placeholder="Room Description" rows="3"></textarea>
+                </div>
+            </div>
+            <button>Submit</button>
+        </form>
+    </div>
+</body>
+</html>

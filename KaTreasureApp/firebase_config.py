@@ -1,3 +1,4 @@
+# Firebase Configuration
 config = {
   "apiKey": "AIzaSyACmEhZoNSmjedyO2KEAiaHVFMn41pMZso",
   "authDomain": "katreasure-eh.firebaseapp.com",

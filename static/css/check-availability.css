@@ -1,0 +1,279 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('path-to-background-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+p {
+    font-size: 15px;
+}
+
+#room-type, #check-in {
+    font-size: 15px;
+    color: #5D6679;
+    border: 1px solid #5D6679;
+    border-radius: 7px;;
+    padding: 10px 17px 10px 17px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.availability-search {
+    text-align: center;
+    margin-top: 100px;
+    color: #000000;
+}
+
+.availability-search h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.search-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 750px;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-flex {
+    display: flex;
+}
+
+.form-padding {
+    padding-left: 20px;
+}
+
+#counter-padding {
+    margin-top: 7px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+small {
+    color: #5D6679;
+}
+
+.radio-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-buttons input[type="radio"] {
+    margin-right: 5px;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+}
+
+.counter .count {
+    margin: 0 10px;
+    min-width: 20px;
+    text-align: center;
+}
+
+button.minus,
+button.plus {
+    color: #1570EF;
+    background-color: #E8F1FD;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.check-availability {
+    background-color: #28CC25;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.check-availability:hover {
+    background-color: #218838;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.button-container .check-availability {
+    margin-left: 140px; /* Adjust if needed */
+    background-color: #1570EF;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.button-container .check-availability:hover {
+    background-color: #0b4c91;
+}
+
+/* CARD */
+
+.open-card {
+    display: inline-block;
+    outline: 0;
+    appearance: none;
+    padding: 0px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(249, 251, 250);
+    border: 1px solid rgb(137, 151, 155);
+    box-shadow: rgb(6 22 33 / 30%) 0px 1px 2px;
+    color: rgb(61, 79, 88);
+    font-size: 14px;
+    font-weight: 400;
+    height: 36px;
+    transition: all 150ms ease-in-out 0s;
+}
+.open-card:hover {
+    color: rgb(61, 79, 88);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(93, 108, 116);
+    box-shadow: rgb(0 0 0 / 30%) 0px 4px 4px, rgb(231 238 236) 0px 0px 0px 3px;
+}
+
+.availability_results {
+    margin: 25px 250px 25px 250px;
+}
+
+.list-container {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.left-col {
+    flex-basis: 70%;
+}
+.right-col {
+    flex-basis: 25%;
+}
+.left-col h1 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+.house {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 30px 0;
+    border-top: 1px solid #ccc;
+}
+.house-img {
+    flex-basis: 40%;
+}
+.house-info {
+    flex-basis: 58%;
+    color: #555;
+}
+.house-img img {
+    width: 100%;
+    border-radius: 12px;
+}
+.house-info h3 {
+    font-weight: 600;
+    color: #333;
+    font-size: 22px;
+    margin: 4px 0;
+}
+.house-info i {
+    color: #ff5361;
+    font-size: 18px;
+    margin: 10px 1px;
+}
+.house-price {
+    text-align: right;
+}
+.house-price h4 {
+    font-size: 20px;
+}
+.house-price h4 span{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@media (max-width:991px){
+
+    .availability_results {
+        margin: 25px 50px 25px 50px;
+    }
+
+    .button-container .check-availability {
+        position: absolute;
+        margin-top: 300px;
+        margin-left: -90px;
+    }
+
+    .house-img img {
+        width: 100%;
+        height: 25vh;
+        border-radius: 12px;
+    }
+
+    .house-price {
+        text-align: right;
+    }
+
+}
+
+/* POP-UP */
+
+/* Pop-up Card Styles */
+.booking-card {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.booking-card-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

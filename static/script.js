@@ -1,14 +1,12 @@
-setTimeout(function() {document.getElementById('messagemain').innerHTML='';},5000);
+let menu = document.querySelector('#menu-btn');
+let navbar = document.querySelector('.header .navbar');
 
-const toggleBtn = document.querySelector('.toggle_btn')
-const toggleBtnIcon = document.querySelector('.toggle_btn i')
-const dropDownMenu = document.querySelector('.dropdown_menu')
+menu.onclick = () => {
+    menu.classList.toggle('fa-times');
+    navbar.classList.toggle('active');
+}
 
-toggleBtn.onclick = function () {
-    dropDownMenu.classList.toggle('open')
-    const isOpen = dropDownMenu.classList.contains('open')
-
-    toggleBtnIcon.classList = isOpen
-    ? 'fa fa-times'
-    : 'fa fa-bars'
+window.onscroll = () => {
+    menu.classList.remove('fa-times');
+    navbar.classList.remove('active');
 }

@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'katreasureeh@gmail.com'
-EMAIL_HOST_PASSWORD = 'ehuzuaqcnikcgpff'
+EMAIL_HOST_PASSWORD = 'zygujgjgtcxvlhlv'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False   
+EMAIL_USE_SSL = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-=!wkgp-egk+m3qq2+(2+!63_lreecswg@hb#(m2z+x5c=1c(0&'
@@ -33,8 +33,7 @@ SECRET_KEY = 'django-insecure-=!wkgp-egk+m3qq2+(2+!63_lreecswg@hb#(m2z+x5c=1c(0&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
-
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -124,8 +123,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 MEDIA_URL='/media/'

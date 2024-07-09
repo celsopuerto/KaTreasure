@@ -1,0 +1,49 @@
+{
+    "rooms": {
+      "room1": {
+        "room_type": "aircon",
+        "capacity": 4,
+        "bookings": {
+          "2024-06-07": {
+            "day-use": {
+              "availability": false,
+              "name": "John Doe",
+              "phone": "09452576820",
+              "adults": 2,
+              "children": 2
+            },
+            "night-use": {
+              "name": null,
+              "availability": true
+            }
+          },
+          "2024-06-08": {
+            "day-use": {
+              "name": null,
+              "availability": true
+            },
+            "night-use": {
+              "name": "Jane Smith",
+              "availability": false
+            }
+          }
+        }
+      },
+      "room2": {
+        "room_type": "non-aircon",
+        "capacity": 4,
+        "bookings": {
+          "2024-06-07": {
+            "day-use": {
+              "name": null,
+              "availability": true
+            },
+            "night-use": {
+              "name": "Alice Brown",
+              "availability": false
+            }
+          }
+        }
+      }
+    }
+  }

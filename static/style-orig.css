@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', 'sans-serif';
+}
+
+body {
+    height: 100vh;
+    background-color: #ffffff;
+    /* background-image: url("/static/img/bg.png"); */
+    background-size: cover;
+    background-position: center;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    font-family: 'Open Sans', 'sans-serif';
+    text-decoration: none;
+    color: #000000;
+    font-size: 1rem;
+}
+
+a:hover {
+    color: orange;
+}
+
+/* HEADER */
+header {
+    position: relative;
+    padding: 0 2rem;
+}
+
+.name {
+    margin-right: 40px;
+}
+
+.auth {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#login {
+    margin-right: 20px;
+}
+
+#login:hover , #signup:hover, #logout:hover {
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.822);
+}
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar .logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar .links {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar .toggle_btn {
+    color: #fff;
+    font-size: 1.55rem;
+    cursor: pointer;
+    display: none;
+}
+
+/* .action_btn {
+    background-color: orange;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+} */
+
+.action_btn {
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    padding: 0.5rem 1.3rem;
+    background: rgb(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.action_btn:hover {
+    scale: 1.05;
+    color: #fff;
+}
+
+.action_btn:active {
+    scale: 0.95;
+}
+
+/* DROPDOWN MENU */
+.dropdown_menu {
+    z-index: 99999;
+    display: none;
+    position: absolute;
+    right: 2rem;
+    top: 60px;
+    height: 0;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height .2s cubic-bezier(0.165, 0.84, 0.44, 1)
+}
+
+.dropdown_menu.open {
+    height: 315px;
+}
+
+.dropdown_menu li {
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown_menu .action_btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* RESPONSIVE DESIGN */
+@media(max-width: 992px) {
+    .navbar .links,
+    .navbar .action_btn, .navbar .auth {
+        display: none;
+    }
+    
+    .navbar .toggle_btn {
+        display: block;
+    }
+
+    .dropdown_menu {
+        display: block;
+    }
+}
+
+@media (max-width: 576px) {
+    .dropdown_menu {
+        left: 2rem;
+        width: unset;
+
+    }
+}
+
+/* NOTIFICATIONS */
+
+.messagemain {
+    z-index: 99999999999;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    position: absolute !important;
+    align-items: center;
+    margin: 0;
+    overflow: hidden !important;
+    top: 16%; /* Position it at the vertical center of the viewport */
+    left: 50%; /* Position it at the horizontal center of the viewport */
+    transform: translate(-50%, -50%); /* Correctly center it relative to its own size */
+}
+
+.toast {
+    z-index: 99999999999;
+    display: flex;
+    align-items: center !important;
+    align-self: center !important;
+    align-content: center !important;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 20px 35px 20px 25px !important;
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.267);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+}
+
+.toast.active {
+    transform: translateX(0%);
+}
+
+.toast .toast-content {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.toast-content .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    min-width: 35px;
+    background-color: #616161;
+    color: #fff45c;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.message .text.text-1 {
+    font-weight: 600;
+    color: #333;
+}
+
+.toast .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+  
+.toast .close:hover {
+    opacity: 1;
+}
+  
+.toast .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+  
+}
+  
+.toast .progress:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #991616;
+}
+  
+.progress.active:before {
+    animation: progress 5s linear forwards;
+}
+  
+@keyframes progress {
+    100% {
+      right: 100%;
+    }
+}

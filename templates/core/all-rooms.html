@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Rooms</title>
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+</head>
+<body>
+    <div class="container">
+        <h1>Available Rooms</h1>
+        {% if rooms %}
+            <ul>
+            {% for room_id, room_details in rooms.items %}
+                <li>
+                    Room Number: {{ room_id }}<br>
+                    Room Capacity: {{ room_details.capacity }}<br>
+                    Room Type: {{ room_details.type }}<br>
+                    <!-- Additional room details here -->
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No rooms available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

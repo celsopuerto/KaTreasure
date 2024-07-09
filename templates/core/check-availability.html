@@ -1,0 +1,186 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+Availability | Ka Treasure Water Terraces Mountain Resort
+{% endblock %}
+
+{% block head %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/check-availability.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="availability-search">
+    <h1>Availability Search</h1>
+    <p>Day Use: 8:00am - 5:00pm &nbsp;&nbsp;&nbsp;&nbsp; Night Use: 1:00pm - 12:00pm</p>
+    <div class="search-box">
+        <form id="availability-form" method="post" action="{% url 'KaTreasureApp:availability' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-padding">
+                    <label>Available Rooms</label>
+                    <div class="radio-buttons">
+                        {% if time_slot == "day" %}
+                            <input type="radio" id="day-use" name="time-slot" value="day" checked>
+                            <label for="day-use">Day Use</label>
+                            <input type="radio" id="night-use" name="time-slot" value="night">
+                            <label for="night-use">Night Use</label>
+                        {% elif time_slot == "night" %}
+                            <input type="radio" id="day-use" name="time-slot" value="day">
+                            <label for="day-use">Day Use</label>
+                            <input type="radio" id="night-use" name="time-slot" value="night" checked>
+                            <label for="night-use">Night Use</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-flex">
+                    <div class="form-padding">
+                        <label for="check-in">Check In</label>
+                        <input type="date" id="check-in" name="check-in" value="{{ check_in }}" required>
+                    </div>
+                    
+                    <div class="button-container">
+                        <div class="form-padding">
+                            <label for="room-type">Room Type</label>
+                            <select id="room-type" name="room-type">
+                                <option value="aircon" {% if room_type == 'aircon' %}selected{% endif %}>Aircon</option>
+                                <option value="non-aircon" {% if room_type == 'non-aircon' %}selected{% endif %}>Non-Aircon</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="check-availability">Check availability</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-flex">
+                    <div class="form-padding">
+                        <label>Adult<br><small>Older than 10 years</small></label>
+                        <input type="hidden" id="adult-count" name="adult-count" value="{{ adults }}">
+                    </div>
+
+                    <div class="form-padding">
+                        <div id="counter-padding" class="counter">
+                            <button type="button" class="minus" data-type="adult">-</button>
+                            <span class="count" id="adult-count-display">{{ adults }}</span>
+                            <button type="button" class="plus" data-type="adult">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-padding" style="margin-left: 20px;">
+                        <label>Children<br><small>4-10 years</small></label>
+                        <input type="hidden" id="children-count" name="children-count" value="{{ child }}">
+                    </div>
+
+                    <div class="form-padding">
+                        <div id="counter-padding" class="counter">
+                            <button type="button" class="minus" data-type="children">-</button>
+                            <span class="count" id="children-count-display">{{ child }}</span>
+                            <button type="button" class="plus" data-type="children">+</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</section>
+
+{% if filtered_data %}
+
+<section class="availability_results">
+    <div class="container">
+        <div class="left-col">
+            
+            {% if room_count %}
+
+            <p>{{ room_count }} Rooms</p>
+            <h1>Available for you</h1>
+
+            {% endif %}
+            
+            <!-- CARD -->
+            
+            {% for room in filtered_data %}
+
+            <div class="house">
+                <div class="house-img">
+                    <img src="{% static 'img/available/image-s1.png' %}">
+                </div>
+                <div class="house-info">
+                    <p>{{ room.type }}</p>
+                    <h3>{{ room.room_id }}</h3>
+                    <input type="text" name="room_id" id="room_id" value="{{ room_id }}" hidden/>   
+                    <p>{{ room.description }}</p>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                    <p>Day: <strong>{% if not room.day_available %}Unavailable{% else %}Available{% endif %}</strong></p>
+                    <p>Night: <strong>{% if not room.night_available %}Unavailable{% else %}Available{% endif %}</strong></p>
+                    <div class="house-price">
+                        <p>{{ room.max_adults }} Adults</p>
+                        <p>{{ room.max_children }} Children</p>
+                        <h4>₱ {{ room.price }} <span>/ session</span></h4>
+                        <button class="open-card" onclick="openBookingCard('{{ room.room_id }}')">Book Room</button>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+        <div class="right-col"></div>
+    </div>
+</section>
+
+{% else %}
+
+<section class="availability_results">
+    <div class="container">
+        <div class="left-col">
+            <!-- <p>{{ room_count }} Rooms</p>
+            <h1>Available for you</h1> -->
+        </div>
+    </div>
+</section>
+
+{% endif %}
+
+<!-- Pop-up Card -->
+<div id="booking-card" class="booking-card">
+    <div class="booking-card-content">
+        <span class="close" onclick="closeBookingCard()">&times;</span>
+        <h2>Book Room</h2>
+        <p>Room ID: <span id="selected-room-id"></span></p>
+        <form method="POST" action="{% url 'KaTreasureApp:book-room' %}">
+            {% csrf_token %}
+            <input type="text" name="room_id" id="booking-room-id">
+            <input type="text" name="check_in" value="{{ check_in }}">
+            <input type="text" name="time" value="{{ room_type }}">
+            <!-- Add more form fields as needed -->
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // JavaScript for Pop-up Card
+    function openBookingCard(roomId) {
+        document.getElementById('selected-room-id').textContent = roomId;
+        document.getElementById('booking-room-id').value = roomId;
+        document.getElementById('booking-card').style.display = 'block';
+    }
+
+    function closeBookingCard() {
+        document.getElementById('booking-card').style.display = 'none';
+    }
+</script>
+
+<script type="text/javascript" src="{% static 'js/check-availability.js' %}"></script>
+
+{% endblock %}

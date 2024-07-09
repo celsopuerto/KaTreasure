@@ -1,175 +1,163 @@
-* {
-    margin: 0;
-    padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+:root{
+    --primary:#0077b6;
+    --secondary:#48cae4;
+    --black:#333;
+    --white:#fff;
+    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+*{
+    font-family: 'Poppins', sans-serif;
+    margin: 0; padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans', 'sans-serif';
-}
-
-body {
-    height: 100vh;
-    background-color: #000;
-    /* background-image: url("/static/img/bg.png"); */
-    background-size: cover;
-    background-position: center;
-}
-
-li {
-    list-style: none;
-}
-
-a {
-    font-family: 'Open Sans', 'sans-serif';
+    outline: none; border: none;
     text-decoration: none;
-    color: #fff;
-    font-size: 1rem;
+    text-transform: capitalize;
+    transition: .2s linear;
 }
 
-a:hover {
-    color: orange;
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-padding-top: 9rem;
+    scroll-behavior: smooth;
 }
 
-/* HEADER */
-header {
-    position: relative;
-    padding: 0 2rem;
+html::-webkit-scrollbar{
+    width: .8rem;
 }
 
-.name {
-    margin-right: 40px;
+html::-webkit-scrollbar-track{
+    background: transparent;
 }
 
-.auth {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: right;
+html::-webkit-scrollbar-thumb{
+    background: var(--primary);
+    border-radius: .5rem;
 }
 
-#login {
-    margin-right: 20px;
+.heading{
+    font-size: 4rem;
+    color: var(--primary);
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bolder;
+    margin-bottom: 3rem;
 }
 
-#login:hover , #signup:hover, #logout:hover {
-    color: rgb(0, 0, 0);
-    background-color: rgba(255, 255, 255, 0.822);
+.btn{
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 1rem 3rem;
+    background: var(--primary);
+    border-radius: .5rem;
+    color: var(--white);
+    font-size: 1.7rem;
+    cursor: pointer;
 }
 
-.navbar {
-    width: 100%;
-    height: 60px;
-    max-width: 1200px;
-    margin: 0 auto;
+.btn:hover{
+    background: var(--secondary);
+}
+
+/* header */
+
+.header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: var(--white);
+    box-shadow: var(--box-shadow);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 2rem 9%;
 }
 
-.navbar .logo a {
-    font-size: 1.5rem;
-    font-weight: bold;
+.header .logo{
+    font-size: 2.5rem;
+    font-weight: bolder;
+    color: var(--black);
 }
 
-.navbar .links {
-    display: flex;
-    gap: 2rem;
+.header .logo i{
+    color: var(--primary);
+    padding-right: .5rem;
 }
 
-.navbar .toggle_btn {
-    color: #fff;
-    font-size: 1.55rem;
-    cursor: pointer;
+.header .navbar a{
+    font-size: 1.7rem;
+    color: var(--black);
+    margin: 0 1rem;
+}
+
+.header .navbar a:hover{
+    color: var(--primary);
+}
+
+.header .navbar .btn{
+    margin-top: 0;
+    color: var(--white);
+}
+
+.header .navbar .btn:hover{
+    color: var(--white);
+}
+
+#menu-btn{
     display: none;
-}
-
-/* .action_btn {
-    background-color: orange;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    outline: none;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    font-size: 2.5rem;
+    margin-left: 1.7rem;
     cursor: pointer;
-    transition: 0.2s ease;
-} */
-
-.action_btn {
-    width: 130px;
-    height: 40px;
-    font-weight: 500;
-    padding: 0.5rem 1.3rem;
-    background: rgb(255, 255, 255, 0.4);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.2s ease;
+    color: var(--black);
 }
 
-.action_btn:hover {
-    scale: 1.05;
-    color: #fff;
+#menu-btn:hover{
+    color: var(--primary);
 }
 
-.action_btn:active {
-    scale: 0.95;
-}
+/* end */
 
-/* DROPDOWN MENU */
-.dropdown_menu {
-    z-index: 99999;
-    display: none;
-    position: absolute;
-    right: 2rem;
-    top: 60px;
-    height: 0;
-    width: 300px;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: height .2s cubic-bezier(0.165, 0.84, 0.44, 1)
-}
+@media (max-width:991px){
 
-.dropdown_menu.open {
-    height: 315px;
-}
-
-.dropdown_menu li {
-    padding: 0.7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dropdown_menu .action_btn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-/* RESPONSIVE DESIGN */
-@media(max-width: 992px) {
-    .navbar .links,
-    .navbar .action_btn, .navbar .auth {
-        display: none;
+    html{
+        font-size: 55%;
     }
-    
-    .navbar .toggle_btn {
+
+    .header{
+        padding: 2rem 3rem;
+    }
+
+}
+
+@media (max-width: 768px){
+
+    #menu-btn{
+        display: inline-block;
+    }
+
+    .header .navbar{
+        position: absolute;
+        top: 110%; right: -110%;
+        width: 30rem;
+        box-shadow: var(--box-shadow);
+        background: var(--white);
+        border-radius: .5rem;
+    }
+
+    .header .navbar.active{
+        right: 2rem;
+        transition: .4s linear;
+    }
+
+    .header .navbar a{
+        font-size: 2rem;
+        margin: 2rem 2.5rem;
         display: block;
     }
 
-    .dropdown_menu {
-        display: block;
-    }
-}
-
-@media (max-width: 576px) {
-    .dropdown_menu {
-        left: 2rem;
-        width: unset;
-
-    }
 }
 
 /* NOTIFICATIONS */
@@ -178,11 +166,11 @@ header {
     z-index: 99999999999;
     display: flex;
     justify-content: center; /* Center horizontally */
-    position: absolute !important;
+    position: fixed !important;
     align-items: center;
     margin: 0;
     overflow: hidden !important;
-    top: 16%; /* Position it at the vertical center of the viewport */
+    top: 22%; /* Position it at the vertical center of the viewport */
     left: 50%; /* Position it at the horizontal center of the viewport */
     transform: translate(-50%, -50%); /* Correctly center it relative to its own size */
 }
