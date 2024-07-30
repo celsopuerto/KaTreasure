@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth as django_auth
 from KaTreasureApp.firebase_config import config
 from django.core.mail import send_mail
-from google.cloud import storage
+from google.cloud import storage as store
 from datetime import datetime
+from .services import get_room_by_id, get_user_info
 
 # firebase_config.py
 import pyrebase
@@ -30,36 +31,44 @@ from firebase_admin import auth
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 authn = firebase.auth()
+storage = firebase.storage()
 
 # admin firebase
 cred = credentials.Certificate(str(FIREBASE_CREDENTIALS_PATH))
 firebase_admin.initialize_app(cred)
 
 # Create your views here.
-@login_required
 def base(request):
     uid = request.session.get('uid')
     if uid:
         usermain = db.child("users").child(uid).get().val()
         print("Signed in: ", usermain)
         print("CELSGOD")
-    return render(request, 'base/base.html')
+    
+    return redirect('KaTreasureApp:home')
+    # return render(request, 'base/base.html')
 
 def home(request):
     authenticated = False
-    full_name = None
+    info = None
+
     try:
         idToken = request.session.get('uid')
         if idToken:
             info = get_user_info(idToken)
             if info:
                 authenticated = True
-                full_name = info['full_name']
     except Exception as e:
         error = str(e)
         if 'INVALID_ID_TOKEN' in error:
-            # messages.success(request, 'Your Token has expired. Please login again')
             return redirect('KaTreasureApp:logout')
+            # messages.success(request, 'Your Token has expired. Please login again')
+            print('Your Token has expired. Please login again')
+    except Exception as e:
+        error = str(e)
+        if 'INVALID_ID_TOKEN' in error:
+            return redirect('KaTreasureApp:logout')
+            # messages.success(request, 'Your Token has expired. Please login again')
             print('Your Token has expired. Please login again')
 
     if request.method == 'POST':
@@ -78,12 +87,11 @@ def home(request):
 
         return redirect('KaTreasureApp:availability')
 
-    return render(request, 'core/home.html', {'full_name': full_name, 'authenticated': authenticated})
+    return render(request, 'core/home.html', {'info': info, 'authenticated': authenticated})
 
 def availability(request):
     authenticated = False
-    full_name = None
-    context = {}
+    info = None
 
     try:
         idToken = request.session.get('uid')
@@ -91,7 +99,6 @@ def availability(request):
             info = get_user_info(idToken)
             if info:
                 authenticated = True
-                full_name = info['full_name']
     except Exception as e:
         error = str(e)
         if 'INVALID_ID_TOKEN' in error:
@@ -132,7 +139,7 @@ def availability(request):
                 'adults': adult_count,
                 'child': children_count,
                 'room_type': room_type,
-                'full_name': full_name,
+                'info': info,
                 'authenticated': authenticated,
                 'error': 'Selected date cannot be before today.'
             })
@@ -151,7 +158,7 @@ def availability(request):
                     'adults': adult_count,
                     'child': children_count,
                     'room_type': room_type,
-                    'full_name': full_name,
+                    'info': info,
                     'authenticated': authenticated
                 })
             
@@ -164,9 +171,9 @@ def availability(request):
                     day_available = True
                     night_available = True
 
-                    if room_data.get('max-adults') < adult_count:
+                    if room_data.get('max_adults') < adult_count:
                         continue
-                    if room_data.get('max-children') < children_count:
+                    if room_data.get('max_children') < children_count:
                         continue
 
                     if checkin in bookings:
@@ -187,19 +194,36 @@ def availability(request):
                         continue
 
                     print(room_data)
-                    
-                    filtered_room_data = {
-                        "room_id": room_id,
-                        "max_adults": room_data.get('max-adults'),
-                        "max_children": room_data.get('max-children'),
-                        "description": room_data.get('description'),
-                        "price": room_data.get('price'),
-                        "type": room_data.get('type'),
-                        "day_available": day_available,
-                        "night_available": night_available,
-                        "bookings": bookings.get(checkin, {})
-                    }
-                    filtered_data.append(filtered_room_data)
+                    if info:
+                        filtered_room_data = {
+                            "info": info,
+                            "room_id": room_id,
+                            "max_adults": room_data.get('max_adults'),
+                            "max_children": room_data.get('max_children'),
+                            "description": room_data.get('description'),
+                            "price": room_data.get('price'),
+                            "type": room_data.get('type'),
+                            "day_available": day_available,
+                            "night_available": night_available,
+                            "bookings": bookings.get(checkin, {})
+                        }
+                        print(info)
+                        filtered_data.append(filtered_room_data)
+                    else:
+                        filtered_room_data = {
+                            "info": info,
+                            "room_id": room_id,
+                            "max_adults": room_data.get('max_adults'),
+                            "max_children": room_data.get('max_children'),
+                            "description": room_data.get('description'),
+                            "price": room_data.get('price'),
+                            "type": room_data.get('type'),
+                            "day_available": day_available,
+                            "night_available": night_available,
+                            "bookings": bookings.get(checkin, {})
+                        }
+                        print(info)
+                        filtered_data.append(filtered_room_data)
 
             room_count = len(filtered_data)  # Count of available rooms
 
@@ -220,7 +244,7 @@ def availability(request):
             'adults': adult_count,
             'child': children_count,
             'room_type': room_type,
-            'full_name': full_name, 
+            'info': info, 
             'authenticated': authenticated})
 
 
@@ -229,18 +253,86 @@ def availability(request):
         'adults': adults,
         'child': child,
         'time_slot': time_slot,
-        'full_name': full_name, 
+        'info': info, 
         'authenticated': authenticated})
 
 def book_room(request):
     if request.method == 'POST':
         room_id = request.POST.get('room_id')
-        # Handle the booking logic here
-        print(f"Booking room with ID: {room_id}")
+        first_name = request.POST.get('first-name')
+        last_name = request.POST.get('last-name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        postal_code = request.POST.get('postal-code')
+        purpose = request.POST.get('purpose')
+        remarks = request.POST.get('remarks')
+
+        check_in = request.POST.get('check_in')
+        adults = request.POST.get('adults')
+        child = request.POST.get('children')
+
+        shuttle_pickup = request.POST.get('shuttle-pickup')
+
+        if(not shuttle_pickup):
+            shuttle_pickup = "No"
+
+        file = request.FILES.get('gcash')  # 'gcash' is the name of the file input field
+        file_url = None
+        if file:
+            # Generate a unique file name
+            file_name = f'{last_name}, {first_name}/{check_in}/{file.name}'
+            # Upload the file to Firebase Storage
+            storage.child(file_name).put(file)
+            # Get the URL of the uploaded file
+            file_url = storage.child(file_name).get_url(None)
+            print(f"File uploaded to Firebase Storage with URL: {file_url}")
+        else:
+            print("No file uploaded")
+
+        # Save booking data to Firebase Realtime Database
+        booking_data = {
+            'room_id': room_id,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'phone': phone,
+            'address': address,
+            'city': city,
+            'postal_code': postal_code,
+            'purpose': purpose,
+            'remarks': remarks,
+            'check_in': check_in,
+            'adults': adults,
+            'child': child,
+            'shuttle_pickup': shuttle_pickup,
+            'file_url': file_url  # Save the URL of the uploaded file
+        }
+
+        # Push booking data to Firebase Realtime Database
+        #db.child('bookings').push(booking_data)
+        print(f"Booking data pushed to Firebase Realtime Database: {booking_data}")
+        print("SUCCESS")
         # Redirect or return a response
         return HttpResponse("Room booked successfully")
 
     return redirect('availability_results')
+
+def confirm_booking(request):
+
+
+    return redirect('')
+
+def fetch_room_data(request):
+    room_id = request.GET.get('room_id')
+    room_data = get_room_by_id(room_id)
+
+    print(room_data)
+    if room_data:
+        return JsonResponse({'success': True, 'room_data': room_data})
+    else:
+        return JsonResponse({'success': False, 'message': 'Room not found'}, status=404)
 
 def all_rooms(request):
     rooms = db.child('rooms').get().val
@@ -263,8 +355,8 @@ def create_room(request):
         formatted_price = "{:.2f}".format(float(price))
         
         data = {
-            "max-adults": int(max_adults),
-            "max-children": int(max_children),
+            "max_adults": int(max_adults),
+            "max_children": int(max_children),
             "type": room_type,
             "description": description,
             "price": float(formatted_price),
@@ -282,16 +374,22 @@ def create_room(request):
 def contactus(request):
     idToken = request.session.get('uid')
     authenticated = False
-    full_name = None
-    email = None
 
-    if idToken:
-        info = get_user_info(idToken)
-        if info:
-            authenticated = True
-            full_name = info['full_name']
-            email = info['email']
+    info = None
 
+    try:
+        idToken = request.session.get('uid')
+        if idToken:
+            info = get_user_info(idToken)
+            if info:
+                authenticated = True
+    except Exception as e:
+        error = str(e)
+        if 'INVALID_ID_TOKEN' in error:
+            return redirect('KaTreasureApp:logout')
+            # messages.success(request, 'Your Token has expired. Please login again')
+            print('Your Token has expired. Please login again')
+            
     if request.method == "POST":
         full_name = request.POST.get('name')
         email = request.POST.get('email')
@@ -304,20 +402,7 @@ def contactus(request):
 
         messages.success(request, f"Thank you {full_name}, we will contact you as soon.")
 
-    return render(request, 'core/contactus.html', {'full_name': full_name, 'email': email, 'authenticated': authenticated})
-
-def get_user_info(id_token):
-    if id_token:
-        a = authn.get_account_info(id_token)
-        a = a['users']
-        a = a[0]
-        a = a['localId']
-
-        full_name = db.child("users").child(a).child('details').child('full_name').get().val()
-        email = db.child("users").child(a).child('details').child('email').get().val()
-        return {"full_name": full_name, "email":  email}
-    else:
-        return None
+    return render(request, 'core/contactus.html', {'info': info, 'authenticated': authenticated})
 
 def logout(request):
     django_auth.logout(request)
@@ -385,7 +470,8 @@ def signup(request):
         return redirect('KaTreasureApp:home')
     else:
         if request.method == 'POST':
-            full_name = request.POST.get('full_name')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
             email = request.POST.get('email')
             password = request.POST.get('password')
 
@@ -399,16 +485,15 @@ def signup(request):
 
                 recipient_list = [email]
 
-                send_mail(subject, message, sender, recipient_list)
-                messages.success(request, f'Verification link has been sent to {email}')
-
-                data = {"full_name": full_name, "email": email, "status":"1"}
+                data = {"first_name": first_name, "last_name": last_name, "email": email, "status":"unverified", "role": "user"}
 
                 uid = user['localId']
 
                 db.child('users').child(uid).child("details").set(data)
 
-                messages.success(request, "Account Created Successfully")
+                send_mail(subject, message, sender, recipient_list)
+                messages.success(request, f'Account Created Successfully - Verification link has been sent to {email}')
+
                 print("Signup Success")
                 return redirect('KaTreasureApp:login')
             except Exception as e:

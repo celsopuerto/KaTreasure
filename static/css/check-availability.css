@@ -258,10 +258,13 @@ button.plus {
 
 .booking-card-content {
     background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
+    margin-top: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+    padding: 10px;
     border: 1px solid #888;
-    width: 80%;
+    width: 90%;
 }
 
 .close {
@@ -276,4 +279,303 @@ button.plus {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* OTHERR */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.back-btn { 
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form-section, .payment-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-section h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.form-section h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"], 
+.form-group input[type="email"], 
+.form-group input[type="tel"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.room-details {
+    display: flex;
+    align-items: center;
+}
+
+.room-details img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.details p {
+    margin: 5px 0;
+}
+
+.booking-details p {
+    margin: 10px 0;
+}
+
+.deposit-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Pop-up Card Styles */
+.booking-card {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.booking-card-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 1000px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* CONFIRM BOOKING */
+
+hr {
+    border: 0.1px solid #ccc; /* or any color you prefer */
+    margin: 10px 20px; /* adjust the spacing as needed */
+}
+
+.inline-details-down {
+    display: flex;
+    justify-content: right;
+    margin: 0 70px; /* adjust the spacing as needed */
+}
+
+.inline-details-down p {
+    padding-top: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: -3px;
+}
+
+.inline-details-hr hr {
+    border: 0.1px solid #ccc; /* or any color you prefer */
+    margin: 0px 20px; /* adjust the spacing as needed */
+}
+
+.inline-details-price {
+    display: flex;
+    justify-content: right;
+    margin: 0 75px; /* adjust the spacing as needed */
+    font-size: 15px;
+}
+
+.inline-details {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 70px; /* adjust the spacing as needed */
+}
+
+.inline-details p {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 10px;
+}
+
+#payment-room-details h1 {
+    margin-top: 10px;
+    font-weight: 450;
+}
+
+.modal-content {
+    border-radius: 20px;
+    background-color: #fefefe;
+    margin: 6% auto 0 auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.closePayment {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closePayment:hover,
+.closePayment:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#payment-receipt {
+    display: none;
+}
+
+.inline-details input {
+    margin-right: -75px;
+}
+
+.agreement input {
+    margin-top: -5px;
+}
+
+.agreement {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 15% 5px 15%;
+}
+
+/* file upload button */
+input[type="file"]::file-selector-button {
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 30px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 16px;
+  transition: background-color 200ms;
+}
+
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 0%;
+}
+.confirm-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.confirm-btn:hover {
+    background-color: #218838;
+}
+
+#qr-code {
+    cursor: pointer;
+    max-width: 20%;
+    height: auto;
+    border: 1px solid #ccc; /* Optional: Add border for clarity */
+    border-radius: 30px;
+}
+#fullscreen-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+#fullscreen-img img {
+    margin-top: 7%;
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 10px; /* Optional: Add border radius for style */
 }

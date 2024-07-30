@@ -12,37 +12,49 @@
             {% if authenticated == True %}
                 <div class="row">
                     <div class="input-group">
-                        <input type="text" name="name" id="name" value="{{full_name}}" required>
-                        <label for="name"><i class="fas fa-user"></i> Your Name</label>
+                        <input type="text" name="name" id="name" value="{{ info.first_name }}" required>
+                        <label for="name"><i class="fas fa-user"></i> First Name</label>
                     </div>
+                    <div class="input-group">
+                        <input type="text" name="name" id="name" value="{{ info.last_name }}" required>
+                        <label for="name"><i class="fas fa-user"></i> Last Name</label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="input-group">
                         <input type="text" name="subject" id="subject" required>
                         <label for="subject"><i class="fas fa-book"></i> Your Subject</label>
                     </div>
-                </div>
-                <div class="input-group">
-                    <input type="text" name="email" id="email" value="{{email}}" required>
-                    <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
+                    <div class="input-group">
+                        <input type="text" name="email" id="email" value="{{ info.email }}" required>
+                        <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
+                    </div>
                 </div>
                 <div class="input-group">
                     <textarea style="resize: none;" id="message" name="message" rows="8" required></textarea>
                     <label for="message"><i class="fas fa-comments"></i> Your Message</label>
                 </div>
             {% else %}
-                <div class="row">
-                    <div class="input-group">
-                        <input type="text" name="name" id="name" required>
-                        <label for="name"><i class="fas fa-user"></i> Your Name</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" name="subject" id="subject" required>
-                        <label for="subject"><i class="fas fa-book"></i> Your Subject</label>
-                    </div>
+            <div class="row">
+                <div class="input-group">
+                    <input type="text" name="name" id="name" value="" required>
+                    <label for="name"><i class="fas fa-user"></i> First Name</label>
                 </div>
                 <div class="input-group">
-                    <input type="text" name="email" id="email" required>
+                    <input type="text" name="name" id="name" value="" required>
+                    <label for="name"><i class="fas fa-user"></i> Last Name</label>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="input-group">
+                    <input type="text" name="subject" id="subject" required>
+                    <label for="subject"><i class="fas fa-book"></i> Your Subject</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="email" id="email" value="" required>
                     <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
                 </div>
+            </div>
                 <div class="input-group">
                     <textarea style="resize: none;" id="message" name="message" rows="8" required></textarea>
                     <label for="message"><i class="fas fa-comments"></i> Your Message</label>

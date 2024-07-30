@@ -151,34 +151,226 @@ Availability | Ka Treasure Water Terraces Mountain Resort
 
 {% endif %}
 
+<form method="POST" action="{% url 'KaTreasureApp:book-room' %}" enctype="multipart/form-data">
+{% csrf_token %}
 <!-- Pop-up Card -->
 <div id="booking-card" class="booking-card">
     <div class="booking-card-content">
-        <span class="close" onclick="closeBookingCard()">&times;</span>
-        <h2>Book Room</h2>
-        <p>Room ID: <span id="selected-room-id"></span></p>
-        <form method="POST" action="{% url 'KaTreasureApp:book-room' %}">
-            {% csrf_token %}
-            <input type="text" name="room_id" id="booking-room-id">
-            <input type="text" name="check_in" value="{{ check_in }}">
-            <input type="text" name="time" value="{{ room_type }}">
-            <!-- Add more form fields as needed -->
-            <button type="submit">Confirm Booking</button>
-        </form>
+        <button class="back-btn" onclick="closeBookingCard()">← Back To Room Selection</button>
+        <div class="container">
+            <div class="columns">
+                <div class="form-section">
+                    <h2>Guest details</h2>
+
+                        <input type="hidden" id="booking-room-id" name="room_id" value="">
+                        <input type="hidden" name="check_in" id="check_in" value="{{ check_in }}"/>
+                        <input type="hidden" name="adults" id="adults" value="{{ adults }}"/>
+                        <input type="hdiden" name="children" id="children" value="{{ child }}"/>
+
+                        <div class="grid-container">
+                            <div class="form-group">
+                                <label for="first-name">First Name *</label>
+                                <input type="text" id="first-name" name="first-name" value="{{ info.first_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name *</label>
+                                <input type="text" id="last-name" name="last-name" value="{{ info.last_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" value="{{ info.email }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone *</label>
+                                <input type="tel" id="phone" name="phone" value="+63 945 257 6820" required>
+                            </div>
+                        </div>
+                        <h3>Personal information</h3>
+                        <div class="grid-container">
+                            <div class="form-group">
+                                <label for="address">Address *</label>
+                                <input type="text" id="address" name="address" value="Suba, Argao, Cebu" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Location/City *</label>
+                                <input type="text" id="city" name="city" value="Cebu City" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="postal-code">Postal code (ZIP) *</label>
+                                <input type="text" id="postal-code" name="postal-code" value="6021" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="purpose">Purpose of stay</label>
+                                <input type="text" id="purpose" name="purpose" value="Have fun">
+                            </div>
+                            <div class="form-group">
+                                <label for="remarks">Special remarks/requests *</label>
+                                <input type="text" id="remarks" name="remarks" value="Put flowers on the bed" required>
+                            </div>
+                        </div>
+                        <h3>Extras</h3>
+                        <div class="form-group">
+                            <input type="checkbox" id="shuttle-pickup" name="shuttle-pickup" value="Yes">
+                            <label for="shuttle-pickup">Shuttle Pickup</label>
+                        </div>
+                    
+                </div>
+                <div class="payment-section">
+                    <h2>Payment</h2>
+                    <div class="room-details">
+                        <img src="{% static 'img/available/image-s1.png' %}" alt="Aircon Room 2">
+                        <div class="details">
+                            <p>Room No: {{ room_type }} <span id="selected-room-id"></span></p>
+                            <p>Max Adults: <span id="max-adults"></span></p>
+                            <p>Max Children: <span id="max-children"></span></p>
+                            <p><span id="description"></span></p>
+                        </div>
+                    </div>
+                    <div class="booking-details">
+                        <p>Check-in: {{ check_in }}</p>
+                        <p>Shuttle Pickup: <span id="shuttle-pickup-text">No</span></p></p>
+                        <p>Stay in total: <span id="room-price"></p>
+                        <p>BOOKING TOTAL: ₱1,600</p>
+                        <p>DEPOSIT: 50%</p>
+                        <button type="button" class="deposit-btn" onclick="showPaymentModal()">Deposit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal" style="display: none; z-index: 20;">
+    <div class="modal-content">
+        <span class="closePayment" onclick="closePaymentModal()">&times;</span>
+        <h2><i class="fa fa-credit-card" aria-hidden="true"></i> Payment</h2>
+        <div id="payment-room-details">
+            <!-- Room details will be populated here -->
+        </div>
+        <div class="form-group">
+            <br>
+            <div class="inline-details">
+                <label for="qr-code">GCASH QR CODE</label>
+                <input type="file" id="gcash" name="gcash" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="inline-details">
+                <div id="image-container">
+                    <img src="{% static 'img/gcash/qr-code.png' %}" alt="QR Code" id="qr-code">
+                </div>
+                <div id="fullscreen-img" style="display: none;">
+                    <img src="{% static 'img/gcash/qr-code.png' %}" alt="QR Code Fullscreen">
+                </div>
+            </div>
+            <div class="agreement">
+                <input type="checkbox" id="agreement" name="agreement" required>
+                <label for="agreement"> By completing the booking you agree to the booking terms and privacy policy.</label>
+            </div>
+        </div>
+        <div class="button-container">
+            <button type="submit" class="confirm-btn">Confirm & Book</button>
+        </div>
+    </div>
+</div>
+
+</form>
+
 <script>
-    // JavaScript for Pop-up Card
     function openBookingCard(roomId) {
-        document.getElementById('selected-room-id').textContent = roomId;
-        document.getElementById('booking-room-id').value = roomId;
-        document.getElementById('booking-card').style.display = 'block';
+        fetch(`/fetch-room-data/?room_id=${roomId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const room = data.room_data;
+                    document.getElementById('selected-room-id').textContent = roomId;
+                    document.getElementById('booking-room-id').value = roomId;
+                    document.getElementById('room_id').value = roomId;
+                    document.getElementById('description').textContent = room.description;
+                    document.getElementById('max-adults').textContent = room.max_adults;
+                    document.getElementById('max-children').textContent = room.max_children;
+                    document.getElementById('room-price').textContent = `₱${room.price}`;
+
+                    // Populate the payment modal
+                    document.getElementById('payment-room-details').innerHTML = `
+                        <h1>${room.type} ${roomId}</h1>
+                        <p>${room.description}</p>
+                        <p>Max Adults: ${room.max_adults} adults</p>
+                        <p>Max Children: ${room.max_children} children</p>
+                        <hr>
+                        <div class="inline-details">
+                            <p><strong>Check-in:</strong> {{ check_in }}</p>
+                            <p><strong>Shuttle Pickup:</strong> ${room.shuttle_pickup ? 'Yes' : 'No'}</p>
+                        </div>
+                        <hr>
+                        <div class="inline-details">
+                            <p><strong>Stay in total:</strong></p>
+                            <p>₱${room.price}</p>
+                        </div>
+                        <div class="inline-details-down">
+                            <p><strong>DOWN PAYMENT TOTAL:</strong></p>
+                        </div>
+                        <div class="inline-details-hr">
+                            <hr>
+                        </div>
+                        <div class="inline-details-price">
+                            <h1> ₱${room.price / 2}</h1>
+                        </div>
+                        <div class="inline-details-hr">
+                            <hr>
+                        </div>
+                    `;
+
+                    document.getElementById('booking-card').style.display = 'flex';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching room data:', error);
+            });
     }
 
     function closeBookingCard() {
         document.getElementById('booking-card').style.display = 'none';
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const shuttlePickupCheckbox = document.getElementById('shuttle-pickup');
+        const shuttlePickupText = document.getElementById('shuttle-pickup-text');
+
+        function updateShuttlePickupText() {
+            shuttlePickupText.textContent = shuttlePickupCheckbox.checked ? 'Yes' : 'No';
+        }
+
+        updateShuttlePickupText();
+        shuttlePickupCheckbox.addEventListener('change', updateShuttlePickupText);
+    });
+
+    function showPaymentModal() {
+        document.getElementById('payment-modal').style.display = 'block';
+    }
+
+    function closePaymentModal() {
+        document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    function confirmBooking() {
+        closePaymentModal();
+        showThankYouPage();
+    }
+
+    const qrCode = document.getElementById('qr-code');
+    const fullscreenImg = document.getElementById('fullscreen-img');
+
+    qrCode.addEventListener('click', function() {
+        fullscreenImg.style.display = 'flex';
+    });
+
+    fullscreenImg.addEventListener('click', function() {
+        fullscreenImg.style.display = 'none';
+    });
 </script>
 
 <script type="text/javascript" src="{% static 'js/check-availability.js' %}"></script>
